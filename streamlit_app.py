@@ -1,15 +1,16 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="CCTV Monitor Hub", layout="wide")
 
 st.title("📹 Local Town CCTV Monitor Hub")
 st.write("Real-time responsive video dashboard player.")
 
-# DATABASE: Use stable YouTube Live links or direct web video paths (.m3u8/.mp4)
-# These will play directly inside your Streamlit application on any mobile phone!
+# DATABASE: We use the universal YouTube embed IDs here. 
+# For example, in a YouTube link, the text after "v=" is the clean video ID.
 TOWNS_DATABASE = {
-    "NASA Space Station Live (YouTube Test)": "https://youtube.com",
-    "Bocaue Traffic Info Backup (Facebook Link)": "BocaueEMS"
+    "NASA Space Station Live (YouTube Test)": "jPTD2gnZwgE",
+    "Bocaue Traffic Info Backup (Facebook)": "BocaueEMS"
 }
 
 selected_town = st.selectbox("Select Location Cam:", list(TOWNS_DATABASE.keys()))
@@ -19,11 +20,23 @@ if selected_town:
     
     st.subheader(f"📍 Location: {selected_town}")
     
-    # Check if the stream source is a standard, embed-friendly video link
-    if "youtube" in source_target or "youtu.be" in source_target:
-        # Streamlit's video player plays YouTube Live directly inline on mobile!
-        st.video(source_target)
-        st.success("📺 Playing inline successfully. Use player controls to expand.")
+    # Check if the target is our YouTube video ID
+    if source_target == "jPTD2gnZwgE":
+        # Universal HTML5 YouTube Player (Bypasses mobile browser cookie blockers)
+        youtube_iframe = f"""
+        <div style="width:100%; display:flex; justify-content:center;">
+            <iframe 
+                width="100%" 
+                height="280" 
+                src="https://youtube.com{source_target}?rel=0&playsinline=1" 
+                style="max-width:500px; border-radius:12px; background:#000; border:none;" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        """
+        components.html(youtube_iframe, height=310)
+        st.success("📺 Playing via universal mobile player layout.")
         
     else:
         # Fallback handling for Facebook targets to bypass the black screen block
