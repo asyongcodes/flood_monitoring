@@ -6,46 +6,42 @@ st.set_page_config(page_title="CCTV Monitor Hub", layout="wide")
 st.title("📹 Local Town CCTV Monitor Hub")
 st.write("Real-time responsive video dashboard player.")
 
-# DATABASE: We use the universal YouTube embed IDs here. 
-# For example, in a YouTube link, the text after "v=" is the clean video ID.
-TOWNS_DATABASE = {
-    "NASA Space Station Live (YouTube Test)": "jPTD2gnZwgE",
-    "Bocaue Traffic Info Backup (Facebook)": "BocaueEMS"
-}
+# DATABASE: Simple selections for the menu dropdown
+TOWNS_DATABASE = [
+    "NASA Space Station Live (YouTube Test)",
+    "Bocaue Traffic Info Backup (Facebook App Link)"
+]
 
-selected_town = st.selectbox("Select Location Cam:", list(TOWNS_DATABASE.keys()))
+selected_town = st.selectbox("Select Location Cam:", TOWNS_DATABASE)
 
-if selected_town:
-    source_target = TOWNS_DATABASE[selected_town]
+if selected_town == "NASA Space Station Live (YouTube Test)":
+    st.subheader("📍 Location: NASA Space Station Live")
     
-    st.subheader(f"📍 Location: {selected_town}")
+    # HARDCODED PLAYER: Written directly with standard slashes. No dynamic variables!
+    # This prevents the mobile phone text filter from combining the letters.
+    youtube_iframe = """
+    <div style="width:100%; display:flex; justify-content:center;">
+        <iframe 
+            width="100%" 
+            height="280" 
+            src="https://youtube.com" 
+            style="max-width:500px; border-radius:12px; background:#000; border:none;" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    """
+    components.html(youtube_iframe, height=310)
+    st.success("📺 Playing inline via static player canvas.")
+
+elif selected_town == "Bocaue Traffic Info Backup (Facebook App Link)":
+    st.subheader("📍 Location: Bocaue Traffic (MDRRMO)")
+    st.error("🔒 Facebook blocks native inline mobile web streaming.")
     
-    # Check if the target is our YouTube video ID
-    if source_target == "jPTD2gnZwgE":
-        # Universal HTML5 YouTube Player (Bypasses mobile browser cookie blockers)
-        youtube_iframe = f"""
-        <div style="width:100%; display:flex; justify-content:center;">
-            <iframe 
-                width="100%" 
-                height="280" 
-                src="https://youtube.com{source_target}?rel=0&playsinline=1" 
-                style="max-width:500px; border-radius:12px; background:#000; border:none;" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-        </div>
-        """
-        components.html(youtube_iframe, height=310)
-        st.success("📺 Playing via universal mobile player layout.")
-        
-    else:
-        # Fallback handling for Facebook targets to bypass the black screen block
-        st.error("🔒 Facebook blocks inline mobile streaming for this target.")
-        
-        # Build the background web link safely
-        site_domain = "https://www." + "facebook" + ".com/"
-        direct_app_url = site_domain + source_target + "/live"
-        
-        st.info("To view this feed on your phone, launch it directly in the main app using the button below:")
-        st.link_button("📱 Launch Live Feed inside Facebook App", direct_app_url)
-        
+    # Clean broken-up strings to protect your mobile app link launch
+    domain_element = "https://www." + "facebook" + ".com/"
+    direct_app_url = domain_element + "BocaueEMS" + "/live"
+    
+    st.info("Launch the live stream instantly inside your device's native app:")
+    st.link_button("📱 Launch Live Feed inside Facebook App", direct_app_url)
+    
