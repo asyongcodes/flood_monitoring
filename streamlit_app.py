@@ -13,7 +13,7 @@ st.write("Real-time local situation dashboard sourced from Facebook Live pages."
 # 2. Database of your tracked towns 
 # Replace the URLs below with the actual Facebook live links of your target pages.
 TOWNS_DATABASE = {
-    "Town A (BOCAUE)": "https://m.facebook.com/BocaueEMS/live_videos/",
+    "Town A (BOCAUE)": "https://www.facebook.com/BocaueEMS/live_videos/",
     "Town B (MARILAO)": "https://www.facebook.com/share/v/18Fz8cJMNp/",
     "Town C (MEYCAUAN)": "https://www.facebook.com/share/v/1BeUxaGnUU/",
     "Town D (VALENZUELA)": "https://www.facebook.com/share/v/1BoCccfAoR/"
