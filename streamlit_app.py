@@ -1,45 +1,42 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="CCTV Monitor Hub", layout="wide")
 
 st.title("📹 Local Town CCTV Monitor Hub")
-st.write("Real-time responsive video dashboard player.")
+st.write("Mobile-optimized situational dashboard control panel.")
 
-TOWNS_DATABASE = [
-    "NASA Space Station Live (YouTube Test)",
-    "Bocaue Traffic Info Backup (Facebook App Link)"
-]
+st.info("💡 Tip: Because mobile browsers block video embeds inside cloud apps, tap the buttons below to open live streams instantly in their official applications.")
 
-selected_town = st.selectbox("Select Location Cam:", TOWNS_DATABASE)
+# Create clean sections for organization
+st.header("📍 Available Live Feeds")
 
-if selected_town == "NASA Space Station Live (YouTube Test)":
-    st.subheader("📍 Location: NASA Space Station Live")
+# Layout Column 1 - Bulacan Local Feeds
+with st.container():
+    st.subheader("Bocaue Traffic Updates (MDRRMO)")
+    st.write("Real-time main road condition streaming feeds.")
     
-    # PRIVACY-ENHANCED EMBED: Uses the explicit non-cookie platform.
-    # This prevents the browser from loading ://youtube.com and avoids connection blocks!
-    youtube_iframe = """
-    <div style="width:100%; display:flex; justify-content:center;">
-        <iframe 
-            width="100%" 
-            height="280" 
-            src="https://youtube-nocookie.com" 
-            style="max-width:500px; border-radius:12px; background:#000; border:none;" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
-    </div>
-    """
-    components.html(youtube_iframe, height=310)
-    st.success("📺 Playing inline via static player canvas.")
+    # Fragment assembly to safely bypass mobile browser text wrappers
+    fb_root = "https://www." + "facebook" + ".com/"
+    bocaue_app_url = fb_root + "BocaueEMS" + "/live"
+    
+    st.link_button("📱 Launch Bocaue Stream on Facebook", bocaue_app_url, use_container_width=True)
 
-elif selected_town == "Bocaue Traffic Info Backup (Facebook App Link)":
-    st.subheader("📍 Location: Bocaue Traffic (MDRRMO)")
-    st.error("🔒 Facebook blocks native inline mobile web streaming.")
+st.divider()
+
+# Layout Column 2 - Operational Test Channels
+with st.container():
+    st.subheader("NASA Space Feed (Dashboard Test)")
+    st.write("Global reference live broadcast testing pipeline channel.")
     
-    domain_element = "https://www." + "facebook" + ".com/"
-    direct_app_url = domain_element + "BocaueEMS" + "/live"
+    nasa_youtube_url = "https://youtube.com"
     
-    st.info("Launch the live stream instantly inside your device's native app:")
-    st.link_button("📱 Launch Live Feed inside Facebook App", direct_app_url)
+    st.link_button("📺 Open NASA Live on YouTube", nasa_youtube_url, use_container_width=True)
+
+st.divider()
+
+# How to expand section
+with st.expander("➕ How to add more towns from your phone"):
+    st.write("1. Open your `app.py` file on GitHub.")
+    st.write("2. Copy an existing `with st.container():` block section.")
+    st.write("3. Change the text title and swap out the username handle.")
     
