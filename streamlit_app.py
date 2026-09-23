@@ -9,6 +9,7 @@ st.write("Real-time traffic and situation dashboard.")
 # DATABASE: Plain user names to prevent mobile filtering
 TOWNS_DATABASE = {
     "Bocaue Traffic (MDRRMO)": "BocaueEMS",
+    "Meycauan CCTV update": "mEYCAUANcctv",
     "NASA Space Feed (Test)": "NASA"
 }
 
