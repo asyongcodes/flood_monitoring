@@ -29,7 +29,7 @@ if selected_town:
     iframe_code = f"""
     <div style="width:100%; display:flex; justify-content:center;">
         <iframe 
-            src="https://facebook.complugins/video.php?href={encoded_url}&show_text=false&width=500" 
+            src="https://facebook.com/plugins/video.php?href={encoded_url}&show_text=false&width=500" 
             width="100%" 
             height="314" 
             style="border:none; overflow:hidden; aspect-ratio:16/9; max-width:500px; border-radius:12px; background:#000;" 
